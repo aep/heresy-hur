@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "config.h"
 #include "package.h"
+
+#define CONFIG_LOCATION "/etc/hurrc"
 
 pkg_t *package_load(char *pkgdir)
 {
@@ -12,6 +15,9 @@ pkg_t *package_load(char *pkgdir)
     char *varname, *value;
     char descfile[PATH_MAX];
     char line[PATH_MAX];
+
+    // Load initial config
+    config_load(CONFIG_LOCATION);
 
     // Description file location
     snprintf(descfile, PATH_MAX, "%s/DESC", pkgdir);
@@ -46,7 +52,6 @@ pkg_t *package_load(char *pkgdir)
 
     return pkg;
 }
-
 
 void package_free(pkg_t *pkg)
 {
